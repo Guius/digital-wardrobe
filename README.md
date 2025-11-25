@@ -173,6 +173,40 @@ I implemented a clear layered architecture to maintain clean separation between 
 - Database can be swapped (JSON → PostgreSQL) without affecting services/controllers
 - Clear responsibilities make the codebase easier to navigate and maintain
 
+### 4. **Simple Error Handling with Logging**
+
+I implemented straightforward error handling at the service layer to prevent database errors from leaking to clients while maintaining debuggability.
+
+**Implementation:**
+
+- All service methods wrapped in try-catch blocks
+- Caught errors are logged with full details (stack traces, error objects) using NestJS Logger
+- Service throws `InternalServerErrorException` with sanitized messages
+- NestJS automatically converts these to proper HTTP 500 responses
+
+**What clients see:**
+
+```json
+{
+  "statusCode": 500,
+  "message": "Failed to retrieve clothing item"
+}
+```
+
+**What gets logged (for debugging):**
+
+- Full error stack trace
+- Error context (which item ID, which operation)
+- Underlying database/file system errors
+
+**Why this approach:**
+
+- Prevents sensitive implementation details from leaking (file paths, database structure, etc.)
+- Maintains security by returning generic error messages to clients
+- Preserves debuggability with comprehensive server-side logging
+- Simple to implement - no custom exceptions or filters needed
+- Appropriate for a time-constrained challenge while still being production-aware
+
 ## Improvements I Would Implement Given More Time
 
 ### 1. **Optimistic Locking for Concurrency Control**
@@ -223,7 +257,6 @@ Implement proper security based on the target user persona:
 - Implement JWT strategy with Passport
 - Add `@UseGuards(JwtAuthGuard)` to protected endpoints
 - Create custom decorator to inject authenticated user
-- Add tenant isolation in repository layer
 
 ### 3. **Additional Enhancements**
 

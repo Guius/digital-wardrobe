@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ClothingItemsRepository } from '../../database/clothing-items.repository';
 import {
   ClothingItem,
@@ -8,17 +12,33 @@ import { ClothingItemsListDto } from './clothing-items-list.dto';
 
 @Injectable()
 export class ClothingItemsService {
+  private readonly logger = new Logger(ClothingItemsService.name);
+
   constructor(
     private readonly clothingItemsRepository: ClothingItemsRepository,
   ) {}
 
   async findAll(): Promise<ClothingItemsListDto> {
-    const items = await this.clothingItemsRepository.findAll();
-    return new ClothingItemsListDto(items, items.length);
+    try {
+      const items = await this.clothingItemsRepository.findAll();
+      return new ClothingItemsListDto(items, items.length);
+    } catch (error) {
+      this.logger.error('Failed to retrieve clothing items', error);
+      throw new InternalServerErrorException(
+        'Failed to retrieve clothing items',
+      );
+    }
   }
 
   async findById(id: string): Promise<ClothingItem | null> {
-    return this.clothingItemsRepository.findById(id);
+    try {
+      return await this.clothingItemsRepository.findById(id);
+    } catch (error) {
+      this.logger.error(`Failed to retrieve clothing item ${id}`, error);
+      throw new InternalServerErrorException(
+        'Failed to retrieve clothing item',
+      );
+    }
   }
 
   async create(
@@ -31,17 +51,22 @@ export class ClothingItemsService {
     purchase_date: Date,
     purchase_price: number,
   ): Promise<ClothingItem> {
-    const item = this.clothingItemsRepository.createEntity(
-      category,
-      colour,
-      user_id,
-      brand,
-      size,
-      image_url,
-      purchase_date,
-      purchase_price,
-    );
-    return this.clothingItemsRepository.save(item);
+    try {
+      const item = this.clothingItemsRepository.createEntity(
+        category,
+        colour,
+        user_id,
+        brand,
+        size,
+        image_url,
+        purchase_date,
+        purchase_price,
+      );
+      return await this.clothingItemsRepository.save(item);
+    } catch (error) {
+      this.logger.error('Failed to create clothing item', error);
+      throw new InternalServerErrorException('Failed to create clothing item');
+    }
   }
 
   async update(
@@ -57,13 +82,23 @@ export class ClothingItemsService {
       purchase_price?: number;
     },
   ): Promise<ClothingItem | null> {
-    const updates: Partial<ClothingItem> = {
-      ...params,
-    };
-    return this.clothingItemsRepository.update(id, updates);
+    try {
+      const updates: Partial<ClothingItem> = {
+        ...params,
+      };
+      return await this.clothingItemsRepository.update(id, updates);
+    } catch (error) {
+      this.logger.error(`Failed to update clothing item ${id}`, error);
+      throw new InternalServerErrorException('Failed to update clothing item');
+    }
   }
 
   async delete(id: string): Promise<boolean> {
-    return this.clothingItemsRepository.delete(id);
+    try {
+      return await this.clothingItemsRepository.delete(id);
+    } catch (error) {
+      this.logger.error(`Failed to delete clothing item ${id}`, error);
+      throw new InternalServerErrorException('Failed to delete clothing item');
+    }
   }
 }
