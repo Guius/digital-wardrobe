@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -17,7 +17,7 @@ import { ClothingItemsListDto } from '../services/clothing-items-list.dto';
 import { ClothingItemsListDto as ClothingItemsListResponseDto } from './dto/clothing-items-list-response.dto';
 import { ClothingItem } from '../entities/clothing-item.entity';
 
-@Controller('clothing-items')
+@Controller('items')
 export class ClothingItemController {
   constructor(private readonly clothingItemsService: ClothingItemsService) {}
 
@@ -36,6 +36,7 @@ export class ClothingItemController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   async create(
     @Body() createDto: CreateClothingItemDto,
   ): Promise<ClothingItemDto> {
@@ -54,7 +55,7 @@ export class ClothingItemController {
     return this.mapToDto(createdItem);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: string,
     @Body() updateDto: UpdateClothingItemDto,
