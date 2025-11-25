@@ -96,7 +96,7 @@ DELETE operations set a `deleted_at` timestamp instead of permanently removing i
 
 ### 2. **No User Authorization**
 
-Any client can view, create, update, or delete any clothing item. The only restriction is that `id` fields cannot be updated. In production, this would include user-scoped filtering and role-based access control.
+Any client can view, create, update, or delete any clothing item. The only restrictions are core restrictions such as `id` fields cannot be updated. In production, this would include user-scoped filtering and role-based access control. This was not implemented as I considered it too complex for the task at hand.
 
 ### 3. **Layered Architecture**
 
