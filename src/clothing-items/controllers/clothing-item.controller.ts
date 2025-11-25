@@ -40,8 +40,7 @@ export class ClothingItemController {
   async create(
     @Body() createDto: CreateClothingItemDto,
   ): Promise<ClothingItemDto> {
-    const item = new ClothingItem(
-      createDto.id,
+    const createdItem = await this.clothingItemsService.create(
       createDto.category,
       createDto.colour,
       createDto.user_id,
@@ -50,9 +49,7 @@ export class ClothingItemController {
       createDto.image_url,
       new Date(createDto.purchase_date),
       createDto.purchase_price,
-      null, // deleted_at is null for new items
     );
-    const createdItem = await this.clothingItemsService.create(item);
     return this.mapToDto(createdItem);
   }
 
@@ -61,13 +58,18 @@ export class ClothingItemController {
     @Param('id') id: string,
     @Body() updateDto: UpdateClothingItemDto,
   ): Promise<ClothingItemDto> {
-    const updates: Partial<ClothingItem> = {
-      ...updateDto,
+    const updatedItem = await this.clothingItemsService.update(id, {
+      category: updateDto.category,
+      colour: updateDto.colour,
+      user_id: updateDto.user_id,
+      brand: updateDto.brand,
+      size: updateDto.size,
+      image_url: updateDto.image_url,
       purchase_date: updateDto.purchase_date
         ? new Date(updateDto.purchase_date)
         : undefined,
-    };
-    const updatedItem = await this.clothingItemsService.update(id, updates);
+      purchase_price: updateDto.purchase_price,
+    });
     return this.mapToDto(updatedItem);
   }
 

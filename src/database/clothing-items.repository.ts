@@ -59,7 +59,31 @@ export class ClothingItemsRepository {
     return item && !item.deleted_at ? item : null;
   }
 
-  async create(item: ClothingItem): Promise<ClothingItem> {
+  createEntity(
+    category: ClothingCategory,
+    colour: string,
+    user_id: string,
+    brand: string,
+    size: string,
+    image_url: string,
+    purchase_date: Date,
+    purchase_price: number,
+  ): ClothingItem {
+    return new ClothingItem(
+      crypto.randomUUID(),
+      category,
+      colour,
+      user_id,
+      brand,
+      size,
+      image_url,
+      purchase_date,
+      purchase_price,
+      null,
+    );
+  }
+
+  async save(item: ClothingItem): Promise<ClothingItem> {
     const items = await this.readData();
     items.push(item);
     await this.writeData(items);
