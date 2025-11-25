@@ -1,0 +1,112 @@
+[
+  {
+    "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "category": "tops",
+    "colour": "Navy Blue",
+    "user_id": "user_001",
+    "brand": "Ralph Lauren",
+    "size": "M",
+    "image_url": "https://example.com/images/navy-polo.jpg",
+    "purchase_date": "2024-03-15T00:00:00.000Z",
+    "purchase_price": 89.99
+  },
+  {
+    "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "category": "bottoms",
+    "colour": "Black",
+    "user_id": "user_001",
+    "brand": "Levi's",
+    "size": "32",
+    "image_url": "https://example.com/images/black-jeans.jpg",
+    "purchase_date": "2024-01-20T00:00:00.000Z",
+    "purchase_price": 79.5
+  },
+  {
+    "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "category": "dresses",
+    "colour": "Floral Print",
+    "user_id": "user_002",
+    "brand": "Zara",
+    "size": "S",
+    "image_url": "https://example.com/images/floral-dress.jpg",
+    "purchase_date": "2024-05-10T00:00:00.000Z",
+    "purchase_price": 65.0
+  },
+  {
+    "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+    "category": "outerwear",
+    "colour": "Grey",
+    "user_id": "user_001",
+    "brand": "North Face",
+    "size": "L",
+    "image_url": "https://example.com/images/grey-jacket.jpg",
+    "purchase_date": "2023-11-05T00:00:00.000Z",
+    "purchase_price": 199.99
+  },
+  {
+    "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "category": "shoes",
+    "colour": "White",
+    "user_id": "user_002",
+    "brand": "Nike",
+    "size": "9",
+    "image_url": "https://example.com/images/white-sneakers.jpg",
+    "purchase_date": "2024-04-22T00:00:00.000Z",
+    "purchase_price": 120.0
+  },
+  {
+    "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+    "category": "accessories",
+    "colour": "Brown",
+    "user_id": "user_003",
+    "brand": "Fossil",
+    "size": "One Size",
+    "image_url": "https://example.com/images/brown-belt.jpg",
+    "purchase_date": "2024-02-14T00:00:00.000Z",
+    "purchase_price": 45.0
+  },
+  {
+    "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+    "category": "tops",
+    "colour": "White",
+    "user_id": "user_003",
+    "brand": "H&M",
+    "size": "L",
+    "image_url": "https://example.com/images/white-tshirt.jpg",
+    "purchase_date": "2024-06-01T00:00:00.000Z",
+    "purchase_price": 19.99
+  },
+  {
+    "id": "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+    "category": "bottoms",
+    "colour": "Khaki",
+    "user_id": "user_002",
+    "brand": "Gap",
+    "size": "30",
+    "image_url": "https://example.com/images/khaki-chinos.jpg",
+    "purchase_date": "2024-03-28T00:00:00.000Z",
+    "purchase_price": 55.0
+  },
+  {
+    "id": "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+    "category": "shoes",
+    "colour": "Black",
+    "user_id": "user_001",
+    "brand": "Clarks",
+    "size": "10",
+    "image_url": "https://example.com/images/black-shoes.jpg",
+    "purchase_date": "2023-12-10T00:00:00.000Z",
+    "purchase_price": 110.0
+  },
+  {
+    "id": "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
+    "category": "accessories",
+    "colour": "Silver",
+    "user_id": "user_002",
+    "brand": "Ray-Ban",
+    "size": "One Size",
+    "image_url": "https://example.com/images/silver-sunglasses.jpg",
+    "purchase_date": "2024-07-15T00:00:00.000Z",
+    "purchase_price": 150.0
+  }
+]
