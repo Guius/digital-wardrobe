@@ -12,9 +12,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/clothing-items",
+          "raw": "{{baseUrl}}/items",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items"]
+          "path": ["items"]
         },
         "description": "Retrieve all clothing items with data array and count"
       },
@@ -26,9 +26,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/clothing-items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+          "raw": "{{baseUrl}}/items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
+          "path": ["items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
         },
         "description": "Retrieve a single clothing item by its ID"
       },
@@ -49,9 +49,9 @@
           "raw": "{\n  \"id\": \"{{$randomUUID}}\",\n  \"category\": \"tops\",\n  \"colour\": \"Red\",\n  \"user_id\": \"user_004\",\n  \"brand\": \"Tommy Hilfiger\",\n  \"size\": \"M\",\n  \"image_url\": \"https://example.com/images/red-shirt.jpg\",\n  \"purchase_date\": \"2024-08-15T00:00:00.000Z\",\n  \"purchase_price\": 75.00\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/clothing-items",
+          "raw": "{{baseUrl}}/items",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items"]
+          "path": ["items"]
         },
         "description": "Create a new clothing item"
       },
@@ -60,7 +60,7 @@
     {
       "name": "Update Clothing Item",
       "request": {
-        "method": "PUT",
+        "method": "PATCH",
         "header": [
           {
             "key": "Content-Type",
@@ -72,9 +72,9 @@
           "raw": "{\n  \"colour\": \"Dark Blue\",\n  \"purchase_price\": 69.99\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/clothing-items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+          "raw": "{{baseUrl}}/items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
+          "path": ["items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
         },
         "description": "Partially update an existing clothing item"
       },
@@ -86,9 +86,9 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/clothing-items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+          "raw": "{{baseUrl}}/items/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
+          "path": ["items", "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
         },
         "description": "Delete a clothing item by ID"
       },
@@ -109,9 +109,9 @@
           "raw": "{\n  \"id\": \"{{$randomUUID}}\",\n  \"category\": \"bottoms\",\n  \"colour\": \"Denim Blue\",\n  \"user_id\": \"user_001\",\n  \"brand\": \"Wrangler\",\n  \"size\": \"34\",\n  \"image_url\": \"https://example.com/images/denim-jeans.jpg\",\n  \"purchase_date\": \"2024-09-20T00:00:00.000Z\",\n  \"purchase_price\": 85.50\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/clothing-items",
+          "raw": "{{baseUrl}}/items",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items"]
+          "path": ["items"]
         },
         "description": "Example creating a bottoms item"
       },
@@ -132,9 +132,9 @@
           "raw": "{\n  \"id\": \"{{$randomUUID}}\",\n  \"category\": \"shoes\",\n  \"colour\": \"Brown\",\n  \"user_id\": \"user_002\",\n  \"brand\": \"Timberland\",\n  \"size\": \"10.5\",\n  \"image_url\": \"https://example.com/images/brown-boots.jpg\",\n  \"purchase_date\": \"2024-10-05T00:00:00.000Z\",\n  \"purchase_price\": 150.00\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/clothing-items",
+          "raw": "{{baseUrl}}/items",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items"]
+          "path": ["items"]
         },
         "description": "Example creating shoes item"
       },
@@ -155,9 +155,9 @@
           "raw": "{\n  \"id\": \"{{$randomUUID}}\",\n  \"category\": \"accessories\",\n  \"colour\": \"Black\",\n  \"user_id\": \"user_003\",\n  \"brand\": \"Gucci\",\n  \"size\": \"One Size\",\n  \"image_url\": \"https://example.com/images/black-wallet.jpg\",\n  \"purchase_date\": \"2024-11-01T00:00:00.000Z\",\n  \"purchase_price\": 295.00\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/clothing-items",
+          "raw": "{{baseUrl}}/items",
           "host": ["{{baseUrl}}"],
-          "path": ["clothing-items"]
+          "path": ["items"]
         },
         "description": "Example creating accessories item"
       },

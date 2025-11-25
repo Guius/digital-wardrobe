@@ -1,50 +1,81 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Digital Wardrobe API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A RESTful API for managing clothing items in a digital wardrobe, built with NestJS and TypeScript.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This application provides a complete API for cataloging and managing clothing items. It supports CRUD operations for clothing items with proper validation, error handling, and a clean architectural structure following NestJS best practices.
 
-## Project setup
+## Features
+
+- ✅ Create, read, update, and delete clothing items
+- ✅ Support for multiple clothing categories (tops, bottoms, dresses, outerwear, shoes, accessories)
+- ✅ Input validation using class-validator
+- ✅ Clean separation of concerns (Controllers, Services, Repository)
+- ✅ Type-safe TypeScript implementation
+- ✅ Postman collection included for API testing
+
+## Prerequisites
+
+- Node.js (v16 or higher recommended)
+- npm or yarn
+
+## Installation
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+## Running the Application
 
 ```bash
-# development
+# development mode
 $ npm run start
 
-# watch mode
+# watch mode (recommended for development)
 $ npm run start:dev
 
 # production mode
 $ npm run start:prod
 ```
 
-## Run tests
+The API will be available at `http://localhost:3000`
+
+## API Endpoints
+
+### Base URL: `http://localhost:3000`
+
+| Method   | Endpoint     | Description                      |
+| -------- | ------------ | -------------------------------- |
+| `GET`    | `/items`     | List all clothing items          |
+| `GET`    | `/items/:id` | Get a single clothing item by ID |
+| `POST`   | `/items`     | Create a new clothing item       |
+| `PATCH`  | `/items/:id` | Update a clothing item           |
+| `DELETE` | `/items/:id` | Delete a clothing item           |
+
+## Testing with Postman
+
+Import the `Digital-Wardrobe.postman_collection.json` file into Postman to test all available endpoints with pre-configured requests.
+
+## Example Request
+
+**POST /items**
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "category": "tops",
+  "colour": "blue",
+  "user_id": "user-123",
+  "brand": "Brooks Brothers",
+  "size": "M",
+  "image_url": "https://example.com/shirt.jpg",
+  "purchase_date": "2024-01-15",
+  "purchase_price": 89.99
+}
+```
+
+## Run Tests
 
 ```bash
 # unit tests
@@ -57,42 +88,105 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## Project Structure
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+src/
+├── clothing-items/
+│   ├── controllers/        # HTTP request handlers
+│   ├── services/           # Business logic
+│   ├── entities/           # Data models
+│   └── dto/                # Data transfer objects
+├── database/               # Data persistence layer
+└── main.ts                 # Application entry point
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Improvements I Would Implement Given More Time
 
-## Resources
+### 1. **Soft Deletes**
 
-Check out a few resources that may come in handy when working with NestJS:
+Instead of permanently deleting items, implement soft deletes with a `deleted_at` timestamp field. This would:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Allow data recovery if items are deleted accidentally
+- Maintain audit trails for compliance
+- Enable "undo delete" functionality
+- Keep historical data for analytics
 
-## Support
+**Implementation approach:**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Add `deleted_at?: Date` field to the entity
+- Modify repository to filter out soft-deleted items in queries
+- Add a restore endpoint to recover deleted items
+- Implement hard delete for admin users only
 
-## Stay in touch
+### 2. **Optimistic Locking for Concurrency Control**
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Add a `version` field to handle concurrent updates and prevent lost update problems when multiple users edit the same item simultaneously.
+
+**Implementation approach:**
+
+- Add `version: number` field to the entity (auto-incremented on each update)
+- Validate version on PATCH requests
+- Return `409 Conflict` if version mismatch detected
+- Force clients to fetch latest version before retrying
+
+**Example flow:**
+
+```typescript
+// Client fetches item (version: 1)
+GET /items/123 → { id: "123", colour: "blue", version: 1 }
+
+// Client updates with version check
+PATCH /items/123 { colour: "red", version: 1 } → Success (version: 2)
+
+// Another client tries to update with stale version
+PATCH /items/123 { colour: "green", version: 1 } → 409 Conflict
+```
+
+### 3. **Authentication & Authorization**
+
+Implement proper security based on the target user persona:
+
+**If this is an end-user API:**
+
+- Add JWT-based authentication
+- Implement user-scoped queries (users can only see their own items)
+- Filter by `user_id` automatically based on authenticated user
+- Prevent users from accessing or modifying other users' items
+
+**If this is an admin API:**
+
+- Implement role-based access control (RBAC)
+- Add admin authentication
+- Allow admins to view/manage all users' items
+- Add audit logging for admin actions
+
+**Implementation approach:**
+
+- Use NestJS Guards for authentication/authorization
+- Implement JWT strategy with Passport
+- Add `@UseGuards(JwtAuthGuard)` to protected endpoints
+- Create custom decorator to inject authenticated user
+- Add tenant isolation in repository layer
+
+### 4. **Additional Enhancements**
+
+- **Pagination**: Add limit/offset or cursor-based pagination for `GET /items`
+- **Filtering & Sorting**: Allow filtering by category, colour, brand, and sorting options
+- **Database**: Replace JSON file storage with a proper database (PostgreSQL/MongoDB)
+- **Caching**: Implement caching for frequently accessed items
+- **Rate Limiting**: Protect API from abuse with request throttling
+- **API Documentation**: Auto-generate OpenAPI/Swagger documentation
+- **Logging**: Structured logging with correlation IDs for request tracing
+- **Error Monitoring**: Integration with a cloud monitoring tool for error tracking
+
+## Technology Stack
+
+- **Framework**: NestJS
+- **Language**: TypeScript
+- **Validation**: class-validator, class-transformer
+- **Storage**: JSON file (in-memory persistence)
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT
