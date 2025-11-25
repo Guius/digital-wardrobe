@@ -17,6 +17,7 @@ export class ClothingItem {
   image_url: string;
   purchase_date: Date;
   purchase_price: number;
+  deleted_at: Date | null;
 
   constructor(
     id: string,
@@ -28,6 +29,7 @@ export class ClothingItem {
     image_url: string,
     purchase_date: Date,
     purchase_price: number,
+    deleted_at: Date | null = null,
   ) {
     this.id = id;
     this.category = category;
@@ -38,5 +40,6 @@ export class ClothingItem {
     this.image_url = image_url;
     this.purchase_date = purchase_date;
     this.purchase_price = purchase_price;
+    this.deleted_at = deleted_at;
   }
 }

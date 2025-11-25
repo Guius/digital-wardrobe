@@ -50,6 +50,7 @@ export class ClothingItemController {
       createDto.image_url,
       new Date(createDto.purchase_date),
       createDto.purchase_price,
+      null, // deleted_at is null for new items
     );
     const createdItem = await this.clothingItemsService.create(item);
     return this.mapToDto(createdItem);

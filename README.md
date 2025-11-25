@@ -101,25 +101,32 @@ src/
 └── main.ts                 # Application entry point
 ```
 
+## Decisions and Assumptions Made
+
+### 1. **Soft Delete Implementation**
+
+I implemented soft deletes to preserve data integrity and enable potential recovery of deleted items. Instead of permanently removing clothing items from the database, the DELETE endpoint sets a `deleted_at` timestamp on the item.
+
+**Why:**
+
+- Prevents accidental data loss
+- Maintains historical records for potential audit requirements
+- Allows for future "restore" functionality
+- Aligns with production-grade data management practices
+
+**How it works:**
+
+- Added a `deleted_at: Date | null` field to the `ClothingItem` entity (defaults to `null`)
+- The `DELETE /items/:id` endpoint sets `deleted_at` to the current timestamp
+- Repository layer filters out soft-deleted items in `findAll()` and `findById()` queries
+- Soft-deleted items cannot be updated (returns 404)
+- Items remain in the JSON storage file but are excluded from regular queries
+
+This approach balances the need for data safety with the simplicity required for a take-home test timeframe.
+
 ## Improvements I Would Implement Given More Time
 
-### 1. **Soft Deletes**
-
-Instead of permanently deleting items, implement soft deletes with a `deleted_at` timestamp field. This would:
-
-- Allow data recovery if items are deleted accidentally
-- Maintain audit trails for compliance
-- Enable "undo delete" functionality
-- Keep historical data for analytics
-
-**Implementation approach:**
-
-- Add `deleted_at?: Date` field to the entity
-- Modify repository to filter out soft-deleted items in queries
-- Add a restore endpoint to recover deleted items
-- Implement hard delete for admin users only
-
-### 2. **Optimistic Locking for Concurrency Control**
+### 1. **Optimistic Locking for Concurrency Control**
 
 Add a `version` field to handle concurrent updates and prevent lost update problems when multiple users edit the same item simultaneously.
 
@@ -143,7 +150,7 @@ PATCH /items/123 { colour: "red", version: 1 } → Success (version: 2)
 PATCH /items/123 { colour: "green", version: 1 } → 409 Conflict
 ```
 
-### 3. **Authentication & Authorization**
+### 2. **Authentication & Authorization**
 
 Implement proper security based on the target user persona:
 
@@ -169,7 +176,7 @@ Implement proper security based on the target user persona:
 - Create custom decorator to inject authenticated user
 - Add tenant isolation in repository layer
 
-### 4. **Additional Enhancements**
+### 3. **Additional Enhancements**
 
 - **Pagination**: Add limit/offset or cursor-based pagination for `GET /items`
 - **Filtering & Sorting**: Allow filtering by category, colour, brand, and sorting options

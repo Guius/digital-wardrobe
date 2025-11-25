@@ -16,6 +16,7 @@ interface ClothingItemData {
   image_url: string;
   purchase_date: string;
   purchase_price: number;
+  deleted_at: string | null;
 }
 
 @Injectable()
@@ -37,6 +38,7 @@ export class ClothingItemsRepository {
           item.image_url,
           new Date(item.purchase_date),
           item.purchase_price,
+          item.deleted_at ? new Date(item.deleted_at) : null,
         ),
     );
   }
@@ -47,12 +49,14 @@ export class ClothingItemsRepository {
   }
 
   async findAll(): Promise<ClothingItem[]> {
-    return this.readData();
+    const items = await this.readData();
+    return items.filter((item) => !item.deleted_at);
   }
 
   async findById(id: string): Promise<ClothingItem | null> {
     const items = await this.readData();
-    return items.find((item) => item.id === id) || null;
+    const item = items.find((item) => item.id === id);
+    return item && !item.deleted_at ? item : null;
   }
 
   async create(item: ClothingItem): Promise<ClothingItem> {
@@ -74,6 +78,12 @@ export class ClothingItemsRepository {
     }
 
     const existingItem = items[index];
+
+    // Prevent updating soft-deleted items
+    if (existingItem.deleted_at) {
+      return null;
+    }
+
     const updatedItem = new ClothingItem(
       existingItem.id,
       updates.category ?? existingItem.category,
@@ -84,6 +94,7 @@ export class ClothingItemsRepository {
       updates.image_url ?? existingItem.image_url,
       updates.purchase_date ?? existingItem.purchase_date,
       updates.purchase_price ?? existingItem.purchase_price,
+      existingItem.deleted_at,
     );
 
     items[index] = updatedItem;
@@ -93,13 +104,35 @@ export class ClothingItemsRepository {
 
   async delete(id: string): Promise<boolean> {
     const items = await this.readData();
-    const filteredItems = items.filter((item) => item.id !== id);
+    const index = items.findIndex((item) => item.id === id);
 
-    if (filteredItems.length === items.length) {
+    if (index === -1) {
       return false;
     }
 
-    await this.writeData(filteredItems);
+    const existingItem = items[index];
+
+    // Already soft-deleted
+    if (existingItem.deleted_at) {
+      return false;
+    }
+
+    // Soft delete by setting deleted_at timestamp
+    const softDeletedItem = new ClothingItem(
+      existingItem.id,
+      existingItem.category,
+      existingItem.colour,
+      existingItem.user_id,
+      existingItem.brand,
+      existingItem.size,
+      existingItem.image_url,
+      existingItem.purchase_date,
+      existingItem.purchase_price,
+      new Date(),
+    );
+
+    items[index] = softDeletedItem;
+    await this.writeData(items);
     return true;
   }
 }
