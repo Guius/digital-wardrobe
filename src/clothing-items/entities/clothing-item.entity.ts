@@ -17,7 +17,7 @@ export class ClothingItem {
   image_url: string;
   purchase_date: Date;
   purchase_price: number;
-  deleted_at: Date | null;
+  deleted_at: Date | null; // for soft deletes
 
   constructor(
     id: string,

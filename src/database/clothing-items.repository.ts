@@ -70,7 +70,7 @@ export class ClothingItemsRepository {
     purchase_price: number,
   ): ClothingItem {
     return new ClothingItem(
-      crypto.randomUUID(),
+      crypto.randomUUID(), // generates a random uuid for the item id
       category,
       colour,
       user_id,
@@ -79,7 +79,7 @@ export class ClothingItemsRepository {
       image_url,
       purchase_date,
       purchase_price,
-      null,
+      null, // when created, item is not deleted
     );
   }
 
@@ -90,6 +90,9 @@ export class ClothingItemsRepository {
     return item;
   }
 
+  /**
+   * You can try and update the id or the deleted at field but these properties will be ignored
+   */
   async update(
     id: string,
     updates: Partial<ClothingItem>,
@@ -109,7 +112,7 @@ export class ClothingItemsRepository {
     }
 
     const updatedItem = new ClothingItem(
-      existingItem.id,
+      existingItem.id, // cannot update the item id
       updates.category ?? existingItem.category,
       updates.colour ?? existingItem.colour,
       updates.user_id ?? existingItem.user_id,
@@ -118,7 +121,7 @@ export class ClothingItemsRepository {
       updates.image_url ?? existingItem.image_url,
       updates.purchase_date ?? existingItem.purchase_date,
       updates.purchase_price ?? existingItem.purchase_price,
-      existingItem.deleted_at,
+      existingItem.deleted_at, // cannot update deleted at --> use delete method for that
     );
 
     items[index] = updatedItem;

@@ -8,6 +8,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { ClothingItemsService } from '../services/clothing-item.service';
 import { CreateClothingItemDto } from './dto/create-clothing-item.dto';
@@ -32,6 +33,9 @@ export class ClothingItemController {
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ClothingItemDto> {
     const item = await this.clothingItemsService.findById(id);
+    if (!item) {
+      throw new NotFoundException(`Clothing item with ID ${id} not found`);
+    }
     return this.mapToDto(item);
   }
 
@@ -70,13 +74,19 @@ export class ClothingItemController {
         : undefined,
       purchase_price: updateDto.purchase_price,
     });
+    if (!updatedItem) {
+      throw new NotFoundException(`Clothing item with ID ${id} not found`);
+    }
     return this.mapToDto(updatedItem);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id') id: string): Promise<void> {
-    await this.clothingItemsService.delete(id);
+    const deleted = await this.clothingItemsService.delete(id);
+    if (!deleted) {
+      throw new NotFoundException(`Clothing item with ID ${id} not found`);
+    }
   }
 
   private mapToDto(item: ClothingItem): ClothingItemDto {

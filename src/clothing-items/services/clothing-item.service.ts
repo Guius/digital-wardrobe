@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ClothingItemsRepository } from '../../database/clothing-items.repository';
 import {
   ClothingItem,
@@ -17,12 +17,8 @@ export class ClothingItemsService {
     return new ClothingItemsListDto(items, items.length);
   }
 
-  async findById(id: string): Promise<ClothingItem> {
-    const item = await this.clothingItemsRepository.findById(id);
-    if (!item) {
-      throw new NotFoundException(`Clothing item with ID ${id} not found`);
-    }
-    return item;
+  async findById(id: string): Promise<ClothingItem | null> {
+    return this.clothingItemsRepository.findById(id);
   }
 
   async create(
@@ -60,21 +56,14 @@ export class ClothingItemsService {
       purchase_date?: Date;
       purchase_price?: number;
     },
-  ): Promise<ClothingItem> {
+  ): Promise<ClothingItem | null> {
     const updates: Partial<ClothingItem> = {
       ...params,
     };
-    const updatedItem = await this.clothingItemsRepository.update(id, updates);
-    if (!updatedItem) {
-      throw new NotFoundException(`Clothing item with ID ${id} not found`);
-    }
-    return updatedItem;
+    return this.clothingItemsRepository.update(id, updates);
   }
 
-  async delete(id: string): Promise<void> {
-    const deleted = await this.clothingItemsRepository.delete(id);
-    if (!deleted) {
-      throw new NotFoundException(`Clothing item with ID ${id} not found`);
-    }
+  async delete(id: string): Promise<boolean> {
+    return this.clothingItemsRepository.delete(id);
   }
 }
