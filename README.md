@@ -17,7 +17,7 @@ This application provides a complete API for cataloging and managing clothing it
 
 ## Prerequisites
 
-- Node.js (v16 or higher recommended)
+- Node.js
 - npm or yarn
 
 ## Installation
@@ -82,8 +82,7 @@ src/
 ├── clothing-items/
 │   ├── controllers/        # HTTP request handlers
 │   ├── services/           # Business logic
-│   ├── entities/           # Data models
-│   └── dto/                # Data transfer objects
+│   └── entities/           # Data models
 ├── database/               # Data persistence layer
 └── main.ts                 # Application entry point
 ```
