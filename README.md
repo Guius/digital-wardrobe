@@ -75,19 +75,6 @@ Import the `Digital-Wardrobe.postman_collection.json` file into Postman to test 
 }
 ```
 
-## Run Tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
 ## Project Structure
 
 ```
@@ -123,6 +110,68 @@ I implemented soft deletes to preserve data integrity and enable potential recov
 - Items remain in the JSON storage file but are excluded from regular queries
 
 This approach balances the need for data safety with the simplicity required for a take-home test timeframe.
+
+### 2. **No User Authorization or Permission Checks**
+
+I have not implemented any checks on who can access or modify clothing items. Since the task does not include a user management system, there are no checks about whether a user is allowed to perform specific actions.
+
+**What this means:**
+
+- Any client can view, create, update, or delete any clothing item
+- No restrictions on field modifications (e.g., anyone can change the `user_id` of a clothing item)
+- No user-scoped filtering (users can see all items, not just their own)
+
+**Core restrictions that remain:**
+
+- The `id` field cannot be updated via PATCH requests (enforced at the application level, as changing IDs would break referential integrity)
+- Standard validation rules apply (required fields, data types, enum values, etc.)
+
+**In a real-world scenario, I would implement:**
+
+- End-user permissions: Users can only view/modify their own items (filtered by `user_id`)
+- Admin permissions: Special roles can modify any item or restricted fields
+- Field-level access control: Regular users cannot change ownership (`user_id`), admins can
+- See "Improvements I Would Implement Given More Time" section for authentication/authorization details
+
+### 3. **Strict Separation of Concerns**
+
+I implemented a clear layered architecture to maintain clean separation between presentation, business, and data access logic.
+
+**Controller Layer (Presentation):**
+
+- Serves exclusively as the interface between HTTP clients and the application
+- Responsibilities:
+  - Input validation (DTOs with class-validator decorators)
+  - Calling appropriate service methods
+  - Mapping entities to DTOs before returning responses
+  - Handling HTTP-specific concerns (status codes, exceptions)
+- Does NOT contain business logic or database logic
+- Ensures no internal entity data escapes to clients (all responses are DTOs)
+
+**Service Layer (Business Logic):**
+
+- Contains business rules and orchestration logic
+- Accepts parameters (not DTOs) and returns entities or primitives
+- Returns `null` or `boolean` values to indicate failure, letting the controller decide how to handle HTTP responses
+- In this application, the service layer is thin due to simple requirements and can therefore look empty or pointless. This structure however allows business logic to be easily added as requirements grow (e.g., validation rules, complex workflows)
+
+**Repository Layer (Data Access):**
+
+- Handles all database-related application logic
+- Responsibilities:
+  - ID generation (UUIDs/timestamps)
+  - Filtering soft-deleted items from queries
+  - Entity instantiation and persistence
+  - Data transformation between storage format and entities
+- Provides clean methods: `createEntity()` (instantiation) and `save()` (persistence)
+- Encapsulates storage implementation details (currently JSON file)
+
+**Benefits of this approach:**
+
+- Easy to test each layer in isolation
+- Business logic can evolve without changing HTTP or database layers
+- Database can be swapped (JSON → PostgreSQL) without affecting services/controllers
+- Clear responsibilities make the codebase easier to navigate and maintain
 
 ## Improvements I Would Implement Given More Time
 
